@@ -1,0 +1,165 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+dataset_path <- "/Users/zhangxiaoyi/Desktop/StudentPerformanceFactors.csv"  # 替换为实际的数据集文件路径
+student_data <- read.csv(dataset_path)
+```
+```{r}
+library(ggplot2)
+ggplot(student_data, aes(x = Hours_Studied, y = Exam_Score)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "blue") +
+  labs(title = "score vs study hours", x = "study hours", y = "score")
+
+```
+```{r}
+library(ggplot2)
+ggplot(student_data, aes(x = Attendance, y = Exam_Score)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "red") +
+  labs(title = "score vs attendance", x = "attendance", y = "score")
+```
+```{r}
+library(ggplot2)
+ggplot(student_data, aes(x = Sleep_Hours, y = Exam_Score)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "orange") +
+  labs(title = "score vs sleep hours", x = "sleep hours", y = "score")
+
+ggplot(student_data, aes(x = Sleep_Hours, y = Exam_Score, fill = Sleep_Hours )) +
+  #scale_fill_gradient(low = "lightblue", high = "darkblue") +
+  stat_summary(fun = mean, geom = "bar") +
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 1)), 
+               vjust = -0.5, size = 3, color = "black") +
+  labs(title = "score vs sleep hours", x = "sleep hours", y = "score")
+```
+从这里开始是散点图！
+1.family income
+
+```{r}
+ggplot(student_data, aes(x = Family_Income, y = Exam_Score ,fill=Family_Income)) +
+  scale_fill_brewer(palette = "Set2") +
+  stat_summary( fun=mean,geom = "bar") +
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 1)), 
+               vjust = -0.5, size = 3, color = "black") +
+  labs(title = "score vs family income", x = "family income", y = "score")
+```
+2.parental education level
+```{r}
+ggplot(student_data, aes(x = Parental_Education_Level, y = Exam_Score ,fill=Parental_Education_Level)) +
+  scale_fill_brewer(palette = "Set2") +
+  stat_summary( fun=mean,geom = "bar") +
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 1)), 
+               vjust = -0.5, size = 3, color = "black") +
+  labs(title = "score vs parental education level", x = "parental education level", y = "score")
+```
+3.peer influence
+```{r}
+ggplot(student_data, aes(x = Peer_Influence, y = Exam_Score ,fill=Peer_Influence)) +
+  scale_fill_brewer(palette = "Set2") +
+  stat_summary( fun=mean,geom = "bar") +
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 1)), 
+               vjust = -0.5, size = 3, color = "black") +
+  labs(title = "score vs peer influence", x = "peer influence", y = "score")
+```
+4.distance from home
+```{r}
+
+ggplot(student_data, aes(x = Distance_from_Home, y = Exam_Score ,fill=Distance_from_Home)) +
+  scale_fill_brewer(palette = "Set2") +
+  stat_summary( fun=mean,geom = "bar") +
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 1)), 
+               vjust = -0.5, size = 3, color = "black") +
+  labs(title = "score vs distance from home", x = "distance", y = "score")
+```
+
+motivation level
+```{r}
+ggplot(student_data, aes(x = Motivation_Level, y = Exam_Score ,fill=Motivation_Level)) +
+  scale_fill_brewer(palette = "Set2") +
+  stat_summary( fun=mean,geom = "bar") +
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 1)), 
+               vjust = -0.5, size = 3, color = "black") +
+  labs(title = "score vs motivation level", x = "motivation level", y = "score")
+```
+access to resources
+```{r}
+ggplot(student_data, aes(x = Access_to_Resources, y = Exam_Score ,fill=Access_to_Resources)) +
+  scale_fill_brewer(palette = "Set2") +
+  stat_summary( fun=mean,geom = "bar") +
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 1)), 
+               vjust = -0.5, size = 3, color = "black") +
+  labs(title = "score vs access to resources", x = "access to resources", y = "score")
+```
+teacher quality
+```{r}
+ggplot(student_data, aes(x = Teacher_Quality, y = Exam_Score ,fill=Teacher_Quality)) +
+  scale_fill_brewer(palette = "Set2") +
+  stat_summary( fun=mean,geom = "bar") +
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 1)), 
+               vjust = -0.5, size = 3, color = "black") +
+  labs(title = "score vs teacher quality", x = "teacher quality", y = "score")
+```
+
+physical activity
+
+```{r}
+
+ggplot(student_data, aes(x = Physical_Activity, y = Exam_Score, fill = Physical_Activity )) +
+  stat_summary(fun = mean, geom = "bar") +
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 1)), 
+               vjust = -0.5, size = 3, color = "black") +
+  labs(title = "score vs pysical activity", x = "physical activity", y = "score")
+```
+从这里开始是分面图：
+```{r}
+ggplot(student_data, aes(x = Hours_Studied, y = Exam_Score)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  facet_wrap(~ Gender) +
+  labs(
+    title = "score vs study hour(faceted by gender)",
+    x = "study hour",
+    y = "score"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(student_data, aes(x = Attendance, y = Exam_Score)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "skyblue") +
+  facet_wrap(~ Gender) +
+  labs(
+    title = "score vs attendance(faceted by gender)",
+    x = "attendance",
+    y = "score"
+  ) +
+  theme_minimal()
+```
+```{r}
+ggplot(student_data, aes(x = Sleep_Hours, y = Exam_Score, fill = Gender)) +
+  stat_summary(fun = mean, geom = "bar", position = "dodge") +
+  stat_summary(fun = mean, geom = "text", aes(label = round(..y.., 1)), 
+               position = position_dodge(width = 0.9), vjust = -0.5, size = 3, color = "black") +
+  facet_wrap(~ Gender) +
+  labs(
+    title = "score vs sleep hours(faceted by gender)",
+    x = "sleep hours",
+    y = "score"
+  ) +
+  theme_minimal()
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
